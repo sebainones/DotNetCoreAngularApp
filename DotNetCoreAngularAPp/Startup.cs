@@ -35,6 +35,7 @@ namespace DotNetCoreAngularAPp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseBrowserLink();
             }
             else
             {
@@ -43,7 +44,9 @@ namespace DotNetCoreAngularAPp
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+            app.UseStaticFiles();//Would serve the file if it find it on the disk even without the @ from razor pages, but wouldn't render it.
+
             app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
