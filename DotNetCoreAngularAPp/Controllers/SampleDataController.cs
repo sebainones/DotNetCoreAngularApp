@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetCoreAngularAPp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/api/SampleData")]
     public class SampleDataController : Controller
     {
         private static string[] Summaries = new[]
@@ -14,6 +14,12 @@ namespace DotNetCoreAngularAPp.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+        [HttpGet("")]
+        public IActionResult Get()
+        {
+            return Json(Summaries);
+        }
+        
         [HttpGet("[action]")]
         public IEnumerable<WeatherForecast> WeatherForecasts()
         {
