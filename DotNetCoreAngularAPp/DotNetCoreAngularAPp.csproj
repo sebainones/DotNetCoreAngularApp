@@ -25,7 +25,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\WeatherForeCast.ts" />
+    <None Remove="ClientApp\src\app\WeatherForecastComponent.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\WeatherForeCast.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\WeatherForecastComponent.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

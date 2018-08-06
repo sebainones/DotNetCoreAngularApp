@@ -3,6 +3,9 @@ import { Alert } from 'selenium-webdriver';
 //import { Http } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { WeatherForeCast } from './WeatherForeCast';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-root',
@@ -14,6 +17,8 @@ import { Injectable } from '@angular/core';
 //export -Now visible outside this file
 export class AppComponent {
   title = 'ClientApp Sebas';
+  foreCast: Observable<WeatherForeCast>;
+  myCurrentForecast: WeatherForeCast;
 
   constructor(private http: HttpClient) {
   }
@@ -26,12 +31,23 @@ export class AppComponent {
 
     //let weatherDeHoy = "Weather de " + currentDate;
 
-    this.http.get('/api/SampleData').subscribe(data => {
 
+    this.http.get<Observable<WeatherForeCast>>('/api/SampleData/').subscribe(data => {
       console.log(data);
-      this.title = data[0];
-    }
-    );  
+
+      this.foreCast = data;
+
+      console.log(this.foreCast);
+
+      this.title = this.foreCast[1].summary;
+      this.myCurrentForecast = this.foreCast[1];
+      console.log(this.myCurrentForecast);
+            
+    },
+      error => {
+        console.log("error ocurred");
+      }
+    );
   }
 };
 

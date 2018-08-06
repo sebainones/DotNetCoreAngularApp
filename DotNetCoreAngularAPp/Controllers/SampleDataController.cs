@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetCoreAngularAPp.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetCoreAngularAPp.Controllers
@@ -14,37 +15,58 @@ namespace DotNetCoreAngularAPp.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+        private static string[] Cities = new[]
+       {
+            "Madrid", "Barcelona", "Mendoza", "Nyon", "Torino"
+        };
+
+        //[HttpGet("")]
+        //public IActionResult Get()
+        //{
+        //    try
+        //    {
+
+        //        return Ok(Summaries);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //_logger.LogError("Failed to get episode from the API", ex);
+
+        //        return BadRequest(ex.Data);
+        //    }
+        //}
+
+
         [HttpGet("")]
         public IActionResult Get()
         {
-            return Json(Summaries);
+            try
+            {
+
+                return Ok(WeatherForecasts());
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError("Failed to get episode from the API", ex);
+
+                return BadRequest(ex.Data);
+            }
         }
-        
-        [HttpGet("[action]")]
+
+        //TODO: Get con Action
+        [HttpGet("WeatherForecasts")]
         public IEnumerable<WeatherForecast> WeatherForecasts()
         {
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
+                Name = Cities[rng.Next(Cities.Length)],
                 DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             });
         }
 
-        public class WeatherForecast
-        {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
 
-            public int TemperatureF
-            {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
-            }
-        }
     }
 }
