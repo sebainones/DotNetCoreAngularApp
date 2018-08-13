@@ -1,0 +1,49 @@
+﻿@page
+@model DotNetCoreAngularApp.Pages.ForecastModel
+@{
+    ViewData["Title"] = "Forecast";
+}
+
+<h2>Forecast</h2>
+
+
+
+<button type="button" (click)="GetWeather()">Clima</button>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>summary</th>
+            <th>temperatureC</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var currentForeCast in Model.Forecasts)
+        {
+            <tr>
+                <td>@currentForeCast.Name</td>
+                <td>@currentForeCast.Summary</td>
+                <td>@currentForeCast.TemperatureC</td>
+                <td>
+
+                    <form asp-page-handler="delete" method="post">
+                        <button class="btn btn-default">Delete</button>
+                        <input type="hidden" name="name" value="@currentForeCast.Name" />
+                    </form>
+
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+@*<button type="submit" asp-page-handler="delete" formmethod="post" method="post"
+            asp-route-id="@currentForeCast.Name">
+        Delete
+    </button>*@
+

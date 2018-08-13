@@ -5,6 +5,7 @@ namespace DotNetCoreAngularAPp.Model
     public class WeatherForecast
     {
         [Required]
+        [Key]
         public string Name { get; set; }
 
         public string DateFormatted { get; set; }
