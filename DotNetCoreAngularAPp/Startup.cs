@@ -6,24 +6,31 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DotNetCoreAngularAPp
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //TODO: extract all this logic for instance in a BootStrap class
+            //because this clas has 3 different responsabilities
 
             services.AddDbContext<WeatherDbContext>(options =>
-                                                    options.UseInMemoryDatabase("name"));
+                                                        options.UseInMemoryDatabase("name")
+                                                    //options.UseSqlServer(connectionString
+                                                    );
+
+            services.AddLogging();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -32,27 +39,44 @@ namespace DotNetCoreAngularAPp
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            //For instance: a user defined Interface/Class troughout all the app lifecycle
+            //services.AddSingleton<IEmailSeneder, EmailSender>();
+
+            //For instance: a user defined Interface/Class troughout all the request lifecycle
+            //services.AddScoped<IEmailSeneder, EmailSender>();
+
+            //For instance: a user defined Interface/Class new each time is requested-
+            //services.AddTransient<IEmailSeneder, EmailSender>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        //Configure http pipeline
+        //The order in which these statements appear is important
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
+                loggerFactory.AddConsole();
+                loggerFactory.AddDebug();
+
                 app.UseDeveloperExceptionPage();
                 //app.UseBrowserLink();
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Error"); //500
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
 
-            app.UseStaticFiles();//Would serve the file if it find it on the disk even without the @ from razor pages, but wouldn't render it.
+            //Would serve the file if it find it on the disk even without the @ from razor pages, but wouldn't render it.
+            //Works with even these 2 lines commented out!¿?
+            //app.UseStaticFiles();
 
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
             {

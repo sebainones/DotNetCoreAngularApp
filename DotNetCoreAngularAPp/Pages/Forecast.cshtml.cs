@@ -7,19 +7,27 @@ using DotNetCoreAngularAPp.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DotNetCoreAngularApp.Pages
 {
     public class ForecastModel : PageModel
     {
         private readonly WeatherDbContext weatherDbContext;
+        private readonly ILogger<ForecastModel> log;
+
         private static bool isContextInitialized = false;
 
+        [TempData]
+        public string Message { get; set; }
+
+        [BindProperty]
         public IList<WeatherForecast> Forecasts { get; private set; }
 
-        public ForecastModel(WeatherDbContext dbContext)
+        public ForecastModel(WeatherDbContext dbContext, ILogger<ForecastModel> log)
         {
             this.weatherDbContext = dbContext;
+            this.log = log;
 
             if (!isContextInitialized)
 
@@ -52,27 +60,12 @@ namespace DotNetCoreAngularApp.Pages
             {
                 this.weatherDbContext.Weathers.Remove(currentForecast);
                 await this.weatherDbContext.SaveChangesAsync();
+                //TODO: figure out this!
+                var msg = $"The forecast for {currentForecast.Name} has been deleted";
+                Message = msg;
+                log.LogWarning(msg);
             }
             return RedirectToPage();
-        }
-
-        public async Task<IActionResult> OnPostAsync(string name)
-        {
-
-            var currentForecast = await this.weatherDbContext.Weathers.FindAsync(name);
-            if (currentForecast != null)
-            {
-                this.weatherDbContext.Weathers.Remove(currentForecast);
-                await this.weatherDbContext.SaveChangesAsync();
-            }
-            return RedirectToPage();
-        }
-
-        //public void OnPostDelete(string name)
-        //{
-
-        //}
-
-
+        }     
     }
 }

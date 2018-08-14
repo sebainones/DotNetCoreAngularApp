@@ -1,4 +1,5 @@
 ﻿@page
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @model DotNetCoreAngularApp.Pages.ForecastModel
 @{
     ViewData["Title"] = "Forecast";
@@ -6,7 +7,7 @@
 
 <h2>Forecast</h2>
 
-
+<h3> @Model.Message</h3>
 
 <button type="button" (click)="GetWeather()">Clima</button>
 
@@ -41,6 +42,10 @@
     </tbody>
 
 </table>
+
+<h1> This is my machine name: @Configuration["computername"]</h1>
+
+<h1> This is my secret key is: @Configuration["MySecretKey"]</h1>
 
 @*<button type="submit" asp-page-handler="delete" formmethod="post" method="post"
             asp-route-id="@currentForeCast.Name">
