@@ -44,6 +44,7 @@ namespace DotNetCoreAngularApp.Pages
 
 
         }
+        
 
         public async Task OnGetAsync()
         {

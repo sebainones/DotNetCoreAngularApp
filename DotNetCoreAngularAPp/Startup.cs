@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -32,7 +33,24 @@ namespace DotNetCoreAngularAPp
 
             services.AddLogging();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(
+                options =>
+                {
+                    options.SslPort = 44321;
+                    options.Filters.Add(new RequireHttpsAttribute());
+                }
+            ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+            services.AddAntiforgery(
+                options =>
+                {
+                    options.Cookie.Name = "_af";
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.HeaderName = "X-XSRF-TOKEN";
+                }
+            );
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -73,10 +91,10 @@ namespace DotNetCoreAngularAPp
             app.UseHttpsRedirection();
 
             //Would serve the file if it find it on the disk even without the @ from razor pages, but wouldn't render it.
-            //Works with even these 2 lines commented out!¿?
-            //app.UseStaticFiles();
+            //For instance the picture in the contact page
+             app.UseStaticFiles();
 
-            //app.UseSpaStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
             {
