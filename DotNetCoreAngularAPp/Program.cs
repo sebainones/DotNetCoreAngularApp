@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
-namespace DotNetCoreAngularAPp
+namespace DotNetCoreAngularApp
 {
     public class Program
     {
@@ -29,12 +25,12 @@ namespace DotNetCoreAngularAPp
             string certificateFileName = certificateSettings.GetValue<string>("filename");
             string certificatePassword = certificateSettings.GetValue<string>("password");
 
+            //string dbPassword = config.GetValue<string>("dbPwd");
+
             var certificate = new X509Certificate2(certificateFileName, certificatePassword);
 
-            
+            IPAddress localhostAddress = IPAddress.Parse("127.0.0.1");  //127.0.0.1 as an example
 
-            System.Net.IPAddress localhostAddress = System.Net.IPAddress.Parse("127.0.0.1");  //127.0.0.1 as an example
-            
             CreateWebHostBuilder(args)
             .UseKestrel(
                 options =>
@@ -53,7 +49,7 @@ namespace DotNetCoreAngularAPp
             .UseConfiguration(config)
             .UseContentRoot(Directory.GetCurrentDirectory())
             .UseStartup<Startup>()
-            .UseUrls("https://127.0.0.1:44321")            
+            .UseUrls("https://127.0.0.1:44321")
             // .UseUrls("https://localhost:44321")            
             .Build().Run();
         }

@@ -1,7 +1,7 @@
+using DotNetCoreAngularApp.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
@@ -9,15 +9,22 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace DotNetCoreAngularAPp
+namespace DotNetCoreAngularApp
 {
     public class Startup
     {
+        private string connectionString; 
+        private string dbPassword;
+
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            dbPassword = Configuration.GetValue<string>("dbPwd");
+
+            connectionString = $"Server=tcp:sebasserver.database.windows.net,1433;Initial Catalog=SebaDataBase;Persist Security Info=False;User ID=sebainones;Password={dbPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -26,10 +33,10 @@ namespace DotNetCoreAngularAPp
             //TODO: extract all this logic for instance in a BootStrap class
             //because this clas has 3 different responsabilities
 
-            services.AddDbContext<WeatherDbContext>(options =>
-                                                        options.UseInMemoryDatabase("name")
-                                                    //options.UseSqlServer(connectionString
-                                                    );
+            //In MemoryDataBase
+            //services.AddDbContext<WeatherDbContext>(options => options.UseInMemoryDatabase("name"));
+
+            services.AddDbContext<ForeCastContext>(options => options.UseSqlServer(connectionString));
 
             services.AddLogging();
 
@@ -92,7 +99,7 @@ namespace DotNetCoreAngularAPp
 
             //Would serve the file if it find it on the disk even without the @ from razor pages, but wouldn't render it.
             //For instance the picture in the contact page
-             app.UseStaticFiles();
+            app.UseStaticFiles();
 
             app.UseSpaStaticFiles();
 

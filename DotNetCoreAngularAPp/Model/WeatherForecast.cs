@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DotNetCoreAngularAPp.Model
+namespace DotNetCoreAngularApp.Model
 {    
     public class WeatherForecast
     {

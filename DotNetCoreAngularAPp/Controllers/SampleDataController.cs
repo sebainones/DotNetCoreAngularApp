@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotNetCoreAngularAPp.Model;
+using DotNetCoreAngularApp.Model;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DotNetCoreAngularAPp.Controllers
+namespace DotNetCoreAngularApp.Controllers
 {
     [Route("/api/SampleData")]
     public class SampleDataController : Controller

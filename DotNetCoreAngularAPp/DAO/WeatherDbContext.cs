@@ -1,7 +1,7 @@
-﻿using DotNetCoreAngularAPp.Model;
+﻿using DotNetCoreAngularApp.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace DotNetCoreAngularAPp
+namespace DotNetCoreAngularApp
 {
     public  class WeatherDbContext :DbContext
     {
