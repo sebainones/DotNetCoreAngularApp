@@ -4,14 +4,16 @@ using DotNetCoreAngularApp.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotNetCoreAngularApp.Migrations
 {
     [DbContext(typeof(ForeCastContext))]
-    partial class ForeCastContextModelSnapshot : ModelSnapshot
+    [Migration("20180821102430_Identity")]
+    partial class Identity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +47,7 @@ namespace DotNetCoreAngularApp.Migrations
 
             modelBuilder.Entity("DotNetCoreAngularApp.Model.ForeCastUser", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
@@ -102,23 +104,6 @@ namespace DotNetCoreAngularApp.Migrations
                         new { Name = "MDZ", Summary = "Templado", TemperatureC = 25 },
                         new { Name = "BCN", Summary = "Fresco", TemperatureC = 15 }
                     );
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClaimType");
-
-                    b.Property<string>("ClaimValue");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IdentityUserClaim");
                 });
 
             modelBuilder.Entity("DotNetCoreAngularApp.Model.City", b =>

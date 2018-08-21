@@ -1,7 +1,9 @@
+using System;
 using DotNetCoreAngularApp.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,7 @@ namespace DotNetCoreAngularApp
 {
     public class Startup
     {
-        private string connectionString; 
+        private string connectionString;
         private string dbPassword;
 
         public IConfiguration Configuration { get; }
@@ -37,6 +39,42 @@ namespace DotNetCoreAngularApp
             //services.AddDbContext<WeatherDbContext>(options => options.UseInMemoryDatabase("name"));
 
             services.AddDbContext<ForeCastContext>(options => options.UseSqlServer(connectionString));
+
+            //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ForeCastContext>();
+            //services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>();
+
+            //services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>().AddEntityFrameworkStores<ForeCastContext>();
+            services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+           {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+               options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+               options.LoginPath = "/Identity/Account/Login";
+               options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+               options.SlidingExpiration = true;
+           });
+
 
             services.AddLogging();
 
@@ -79,37 +117,59 @@ namespace DotNetCoreAngularApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         //Configure http pipeline
         //The order in which these statements appear is important
+        //The order that middleware components are added in the Configure method defines the order in which they're invoked on requests, 
+        //and the reverse order for the response. This ordering is critical for security, performance, and functionality.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            // The Configure method (shown below) adds the following middleware components:
+
+            //1 - Exception/error handling
+            //2- Static file server
+            //3- Authentication
+            //4-  MVC
+            //5 - Angular
+
             if (env.IsDevelopment())
             {
                 loggerFactory.AddConsole();
                 loggerFactory.AddDebug();
 
+                //1 - Exception/error handling
                 app.UseDeveloperExceptionPage();
                 //app.UseBrowserLink();
             }
             else
             {
+                //1 - Exception/error handling
                 app.UseExceptionHandler("/Error"); //500
                 app.UseHsts();
             }
 
+            //2- Static file server
             app.UseHttpsRedirection();
 
             //Would serve the file if it find it on the disk even without the @ from razor pages, but wouldn't render it.
             //For instance the picture in the contact page
             app.UseStaticFiles();
-
             app.UseSpaStaticFiles();
 
+            app.UseCookiePolicy();
+            //Before HttpContext.User is needed. Terminal for OAuth callbacks.
+
+            //3- Authentication
+            //To use ASP.NET Core Identity you also need to enable authentication.
+            app.UseAuthentication();
+
+            // app.UseResponseCompression();
+
+            //4-  MVC
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-
+            //5 - Angular
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,

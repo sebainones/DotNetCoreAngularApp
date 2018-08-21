@@ -26,11 +26,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180821102430_Identity.cs" />
+    <Compile Remove="Migrations\20180821102430_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20180821103337_Identity2.cs" />
+    <Compile Remove="Migrations\20180821103337_Identity2.Designer.cs" />
+    <Compile Remove="Migrations\20180821113138_Identity3.cs" />
+    <Compile Remove="Migrations\20180821113138_Identity3.Designer.cs" />
+    <Compile Remove="Migrations\20180821140152_IdentityChanges.cs" />
+    <Compile Remove="Migrations\20180821140152_IdentityChanges.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ClientApp\src\app\WeatherForeCast.ts" />
     <None Remove="ClientApp\src\app\WeatherForecastComponent.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Identity\Data\" />
+    <Folder Include="Areas\Identity\Services\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 

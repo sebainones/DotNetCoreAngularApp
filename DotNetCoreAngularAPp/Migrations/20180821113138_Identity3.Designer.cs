@@ -4,14 +4,16 @@ using DotNetCoreAngularApp.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotNetCoreAngularApp.Migrations
 {
     [DbContext(typeof(ForeCastContext))]
-    partial class ForeCastContextModelSnapshot : ModelSnapshot
+    [Migration("20180821113138_Identity3")]
+    partial class Identity3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,46 +45,6 @@ namespace DotNetCoreAngularApp.Migrations
                     );
                 });
 
-            modelBuilder.Entity("DotNetCoreAngularApp.Model.ForeCastUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp");
-
-                    b.Property<string>("Email");
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail");
-
-                    b.Property<string>("NormalizedUserName");
-
-                    b.Property<string>("Password");
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("DotNetCoreAngularApp.Model.WeatherForecast", b =>
                 {
                     b.Property<string>("Name")
@@ -104,21 +66,58 @@ namespace DotNetCoreAngularApp.Migrations
                     );
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClaimType");
+                    b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ConcurrencyStamp");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail");
+
+                    b.Property<string>("NormalizedUserName");
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityUserClaim");
+                    b.ToTable("IdentityUser<Guid>");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser<Guid>");
+                });
+
+            modelBuilder.Entity("DotNetCoreAngularApp.Model.ForeCastUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>");
+
+                    b.Property<string>("Password");
+
+                    b.ToTable("ForeCastUser");
+
+                    b.HasDiscriminator().HasValue("ForeCastUser");
                 });
 
             modelBuilder.Entity("DotNetCoreAngularApp.Model.City", b =>

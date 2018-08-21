@@ -4,14 +4,16 @@ using DotNetCoreAngularApp.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotNetCoreAngularApp.Migrations
 {
     [DbContext(typeof(ForeCastContext))]
-    partial class ForeCastContextModelSnapshot : ModelSnapshot
+    [Migration("20180821145343_IdentityUserClaim")]
+    partial class IdentityUserClaim
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

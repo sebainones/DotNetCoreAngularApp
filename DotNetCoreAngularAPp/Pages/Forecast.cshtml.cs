@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotNetCoreAngularApp;
 using DotNetCoreAngularApp.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 
 namespace DotNetCoreAngularApp.Pages
 {
+    [Authorize]
     public class ForecastModel : PageModel
     {
         private readonly ILogger<ForecastModel> log;
@@ -47,6 +47,7 @@ namespace DotNetCoreAngularApp.Pages
             //this.weatherDbContext.Weathers.Add(new WeatherForecast() { Name = "Zaragoza", Summary = "Nublado", TemperatureC = 25 });
             //this.weatherDbContext.SaveChangesAsync();
         }
+
 
         public async Task OnGetAsync()
         {
