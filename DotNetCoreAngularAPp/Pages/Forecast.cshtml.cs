@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 namespace DotNetCoreAngularApp.Pages
 {
     [Authorize]
+
+    // [AllowAnonymous]
     public class ForecastModel : PageModel
     {
         private readonly ILogger<ForecastModel> log;

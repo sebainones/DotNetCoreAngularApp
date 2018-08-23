@@ -43,8 +43,14 @@ namespace DotNetCoreAngularApp
             //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ForeCastContext>();
             //services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>();
 
+            //I don't want to have roles for the moment.
+            //services.AddIdentity<ForeCastUser, IdentityRole>().AddEntityFrameworkStores<ForeCastContext>();
             //services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>().AddEntityFrameworkStores<ForeCastContext>();
-            services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>();
+
+
+            services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>().
+            AddDefaultTokenProviders();
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -158,6 +164,7 @@ namespace DotNetCoreAngularApp
 
             //3- Authentication
             //To use ASP.NET Core Identity you also need to enable authentication.
+            //Identity is enabled by calling UseAuthentication. This adds authentication middleware to the request pipeline.
             app.UseAuthentication();
 
             // app.UseResponseCompression();

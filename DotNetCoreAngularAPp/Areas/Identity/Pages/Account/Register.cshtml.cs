@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace DotNetCoreAngularApp.Areas.Identity.Pages.Account
 {
+    //Docuemntation: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.1&tabs=visual-studio
+
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
