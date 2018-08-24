@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCoreAngularApp", "DotNetCoreAngularAPp\DotNetCoreAngularApp.csproj", "{FFE5867B-F155-48AF-B037-848E2E4EAEDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiUnsecure", "WebApiUnsecure\WebApiUnsecure.csproj", "{7756062E-A0B4-4D47-810F-80B1BD6EE0FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FFE5867B-F155-48AF-B037-848E2E4EAEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFE5867B-F155-48AF-B037-848E2E4EAEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFE5867B-F155-48AF-B037-848E2E4EAEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7756062E-A0B4-4D47-810F-80B1BD6EE0FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7756062E-A0B4-4D47-810F-80B1BD6EE0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7756062E-A0B4-4D47-810F-80B1BD6EE0FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7756062E-A0B4-4D47-810F-80B1BD6EE0FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,24 +18,7 @@ namespace DotNetCoreAngularApp.Controllers
         private static string[] Cities = new[]
        {
             "Madrid", "Barcelona", "Mendoza", "Nyon", "Torino"
-        };
-
-        //[HttpGet("")]
-        //public IActionResult Get()
-        //{
-        //    try
-        //    {
-
-        //        return Ok(Summaries);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //_logger.LogError("Failed to get episode from the API", ex);
-
-        //        return BadRequest(ex.Data);
-        //    }
-        //}
-
+        };        
 
         [HttpGet("")]
         public IActionResult Get()
