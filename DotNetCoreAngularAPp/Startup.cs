@@ -1,4 +1,5 @@
 using System;
+using DotNetCoreAngularApp.Configuration;
 using DotNetCoreAngularApp.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -72,8 +73,8 @@ namespace DotNetCoreAngularApp
 
             services.ConfigureApplicationCookie(options =>
            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
+               // Cookie settings
+               options.Cookie.HttpOnly = true;
                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
                options.LoginPath = "/Identity/Account/Login";
@@ -92,6 +93,8 @@ namespace DotNetCoreAngularApp
                 }
             ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+
+            services.Configure<MyConfiguration>(Configuration.GetSection("MyConfig"));
 
             services.AddAntiforgery(
                 options =>
@@ -116,7 +119,7 @@ namespace DotNetCoreAngularApp
             //services.AddScoped<IEmailSeneder, EmailSender>();
 
             //For instance: a user defined Interface/Class new each time is requested-
-            //services.AddTransient<IEmailSeneder, EmailSender>();
+            //services.AddTransient<IEmailSeneder, EmailSender>();          
 
         }
 
@@ -135,9 +138,11 @@ namespace DotNetCoreAngularApp
             //4-  MVC
             //5 - Angular
 
-            if (env.IsDevelopment())
+            loggerFactory.AddConsole();
+
+            if (env.IsDevelopment() || env.IsEnvironment("PreProd"))
             {
-                loggerFactory.AddConsole();
+
                 loggerFactory.AddDebug();
 
                 //1 - Exception/error handling
@@ -169,6 +174,16 @@ namespace DotNetCoreAngularApp
 
             // app.UseResponseCompression();
 
+            var _log = loggerFactory.CreateLogger("Sebass");
+
+            //Custom middleware  per each request comming!
+            app.Use(async (context, next) =>
+            {
+                _log.LogWarning("====>Incoming Request");
+
+                await next();
+            });
+
             //4-  MVC
             app.UseMvc(routes =>
             {
@@ -176,6 +191,7 @@ namespace DotNetCoreAngularApp
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+
             //5 - Angular
             app.UseSpa(spa =>
             {
@@ -189,6 +205,17 @@ namespace DotNetCoreAngularApp
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+        }
+
+        //Executes this when the environment variable is Development
+        //TODO: check this out!!
+        public void ConfigureDevelopment()
+        {
+            //Only Development Stufff
+            //Exceptions
+            //InMemmoryData
+            //etc.
+
         }
     }
 }

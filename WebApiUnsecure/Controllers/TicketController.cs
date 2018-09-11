@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WebApiUnsecure.Model;
 
 namespace WebApiUnsecure.Controllers
@@ -16,15 +15,35 @@ namespace WebApiUnsecure.Controllers
     {
         private TicketContext ticketContext;
 
-        public TicketController(TicketContext context)
+        private readonly ILogger<TicketController> _logger;
+
+        public TicketController(TicketContext context, ILogger<TicketController> logger)
         {
+
+
             ticketContext = context;
+            _logger = logger;
+
+
         }
 
         [HttpGet]
         public IEnumerable<Ticket> GetAll()
         {
-            return ticketContext.Tickets.AsNoTracking().ToList();
+            _logger.LogDebug("GetAll");
+
+            IEnumerable<Ticket> tickets = null;
+
+            try
+            {
+                tickets = ticketContext.Tickets.AsNoTracking().ToList();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            return tickets;
         }
 
 

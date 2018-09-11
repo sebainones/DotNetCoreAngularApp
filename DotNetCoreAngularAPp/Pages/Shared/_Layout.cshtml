@@ -1,4 +1,12 @@
-﻿@using Microsoft.AspNetCore.Hosting
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@using DotNetCoreAngularApp.Configuration
+@inject Microsoft.Extensions.Options.IOptions<MyConfiguration> MyConfig
+
+@{
+    var myConfig = MyConfig.Value;
+}
+
+@using Microsoft.AspNetCore.Hosting
 @using Microsoft.AspNetCore.Mvc.ViewEngines
 @inject IHostingEnvironment Environment
 @inject ICompositeViewEngine Engine
@@ -8,6 +16,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DotNetCoreAngularApp</title>
+
+    <style>
+        .navbar-inverse{
+        background-color: @(myConfig.MenubBarBackgroundColor)!important;
+        }
+
+        .table{
+            background-color: @(myConfig.MenubBarBackgroundColor)!important;
+        }
+
+    </style>
+
 
     <environment include="Development">
         <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.css" />
