@@ -88,7 +88,7 @@ namespace DotNetCoreAngularApp
             services.AddMvc(
                 options =>
                 {
-                    options.SslPort = 44321;
+                    //options.SslPort = 44321;
                     options.Filters.Add(new RequireHttpsAttribute());
                 }
             ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

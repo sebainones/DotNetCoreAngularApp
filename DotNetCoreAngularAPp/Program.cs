@@ -29,27 +29,29 @@ namespace DotNetCoreAngularApp
 
             var certificate = new X509Certificate2(certificateFileName, certificatePassword);
 
-            IPAddress localhostAddress = IPAddress.Parse("127.0.0.1");  //127.0.0.1 as an example
+            //IPAddress localhostAddress = IPAddress.Parse("127.0.0.1");  //127.0.0.1 as an example
 
             CreateWebHostBuilder(args)
             .UseKestrel(
                 options =>
                 {
                     options.AddServerHeader = false;
-                    // options.Listen(IPAddress.Loopback, 44321, listenOptions =>
-                    // {
-                    //     listenOptions.UseHttps(certificate);
-                    // });
-                    options.Listen(localhostAddress, 44321, listenOptions =>
-                    {
-                        listenOptions.UseHttps(certificate);
-                    });
+                    //This is commented out in order to use LaunchSettings
+                    //options.Listen(IPAddress.Loopback, 44321, listenOptions =>
+                    //{
+                    //    listenOptions.UseHttps(certificate);
+                    //});
+                    //options.Listen(localhostAddress, 44321, listenOptions =>
+                    //{
+                    //    listenOptions.UseHttps(certificate);
+                    //});
                 }
             )
             .UseConfiguration(config)
             .UseContentRoot(Directory.GetCurrentDirectory())
-            .UseStartup<Startup>()
-            .UseUrls("https://127.0.0.1:44321")
+            //.UseStartup<Startup>()  //Defined on the  CreateWebHostBuilder method
+            //Defined by the Default or on the LaunchSettings
+            //.UseUrls("https://127.0.0.1:44321")
             // .UseUrls("https://localhost:44321")            
             .Build().Run();
         }
