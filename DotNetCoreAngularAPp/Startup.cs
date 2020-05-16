@@ -25,9 +25,9 @@ namespace DotNetCoreAngularApp
         {
             Configuration = configuration;
 
-            dbPassword = Configuration.GetValue<string>("dbPwd");
+            //dbPassword = Configuration.GetValue<string>("dbPwd");
 
-            connectionString = $"Server=tcp:sebasserver.database.windows.net,1433;Initial Catalog=SebaDataBase;Persist Security Info=False;User ID=sebainones;Password={dbPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            //connectionString = $"Server=tcp:sebasserver.database.windows.net,1433;Initial Catalog=SebaDataBase;Persist Security Info=False;User ID=sebainones;Password={dbPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -39,7 +39,7 @@ namespace DotNetCoreAngularApp
             //In MemoryDataBase
             //services.AddDbContext<WeatherDbContext>(options => options.UseInMemoryDatabase("name"));
 
-            services.AddDbContext<ForeCastContext>(options => options.UseSqlServer(connectionString));
+            //services.AddDbContext<ForeCastContext>(options => options.UseSqlServer(connectionString));
 
             //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ForeCastContext>();
             //services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>();
@@ -49,67 +49,67 @@ namespace DotNetCoreAngularApp
             //services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>().AddEntityFrameworkStores<ForeCastContext>();
 
 
-            services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>().
-            AddDefaultTokenProviders();
+            //services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>().
+            //AddDefaultTokenProviders();
 
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Password settings.
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 6;
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    // Password settings.
+            //    options.Password.RequireDigit = true;
+            //    options.Password.RequireLowercase = true;
+            //    options.Password.RequireUppercase = true;
+            //    options.Password.RequiredLength = 6;
 
-                // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
+            //    // Lockout settings.
+            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            //    options.Lockout.MaxFailedAccessAttempts = 5;
+            //    options.Lockout.AllowedForNewUsers = true;
 
-                // User settings.
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
-            });
+            //    // User settings.
+            //    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            //    options.User.RequireUniqueEmail = false;
+            //});
 
-            services.ConfigureApplicationCookie(options =>
-           {
-               // Cookie settings
-               options.Cookie.HttpOnly = true;
-               options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+           // services.ConfigureApplicationCookie(options =>
+           //{
+           //    // Cookie settings
+           //    options.Cookie.HttpOnly = true;
+           //    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-               options.LoginPath = "/Identity/Account/Login";
-               options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-               options.SlidingExpiration = true;
-           });
+           //    options.LoginPath = "/Identity/Account/Login";
+           //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+           //    options.SlidingExpiration = true;
+           //});
 
 
             services.AddLogging();
 
-            services.AddMvc(
-                options =>
-                {
-                    options.Filters.Add(new RequireHttpsAttribute());
-                }
-            ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc(
+            //    options =>
+            //    {
+            //        options.Filters.Add(new RequireHttpsAttribute());
+            //    }
+            //).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 
-            services.Configure<MyConfiguration>(Configuration.GetSection("MyConfig"));
+            //services.Configure<MyConfiguration>(Configuration.GetSection("MyConfig"));
 
-            services.AddAntiforgery(
-                options =>
-                {
-                    options.Cookie.Name = "_af";
-                    options.Cookie.HttpOnly = true;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                    options.HeaderName = "X-XSRF-TOKEN";
-                }
-            );
+            //services.AddAntiforgery(
+            //    options =>
+            //    {
+            //        options.Cookie.Name = "_af";
+            //        options.Cookie.HttpOnly = true;
+            //        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            //        options.HeaderName = "X-XSRF-TOKEN";
+            //    }
+            //);
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ClientApp/dist";
+            //});
 
             //For instance: a user defined Interface/Class troughout all the app lifecycle
             //services.AddSingleton<IEmailSeneder, EmailSender>();

@@ -14,7 +14,7 @@ namespace DotNetCoreAngularApp
         public static void Main(string[] args)
         {
 
-            var config = new ConfigurationBuilder()
+            IConfigurationRoot config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddEnvironmentVariables()
             .AddJsonFile("certificate.json", optional: true, reloadOnChange: true)
@@ -25,20 +25,23 @@ namespace DotNetCoreAngularApp
             string certificateFileName = certificateSettings.GetValue<string>("filename");
             string certificatePassword = certificateSettings.GetValue<string>("password");
 
-            //string dbPassword = config.GetValue<string>("dbPwd");
+            ////string dbPassword = config.GetValue<string>("dbPwd");
 
             var certificate = new X509Certificate2(certificateFileName, certificatePassword);
-            
-            
+
+
             CreateWebHostBuilder(args)
             .UseKestrel(
                 options =>
                 {
-                    options.AddServerHeader = false;                    
-                }
-            )
+                    options.AddServerHeader = false;
+                    options.ListenLocalhost(5001, listenOptions =>
+                    {
+                        listenOptions.UseHttps(certificate);
+                    });
+                })
             .UseConfiguration(config)
-            .UseContentRoot(Directory.GetCurrentDirectory())           
+            .UseContentRoot(Directory.GetCurrentDirectory())
             .Build().Run();
         }
 
