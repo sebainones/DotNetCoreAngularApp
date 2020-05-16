@@ -25,24 +25,25 @@ namespace DotNetCoreAngularApp
             string certificateFileName = certificateSettings.GetValue<string>("filename");
             string certificatePassword = certificateSettings.GetValue<string>("password");
 
-            ////string dbPassword = config.GetValue<string>("dbPwd");
+            string dbPassword = config.GetValue<string>("dbPwd");
 
             var certificate = new X509Certificate2(certificateFileName, certificatePassword);
 
 
             CreateWebHostBuilder(args)
-            .UseKestrel(
-                options =>
-                {
-                    options.AddServerHeader = false;
-                    options.ListenLocalhost(5001, listenOptions =>
-                    {
-                        listenOptions.UseHttps(certificate);
-                    });
-                })
+            //.UseKestrel(
+            //    options =>
+            //    {
+            //        options.AddServerHeader = false;
+            //        options.ListenLocalhost(5001, listenOptions =>
+            //        {
+            //            listenOptions.UseHttps(certificate);
+            //        });
+            //    })
             .UseConfiguration(config)
             .UseContentRoot(Directory.GetCurrentDirectory())
-            .Build().Run();
+            .Build()
+            .Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
