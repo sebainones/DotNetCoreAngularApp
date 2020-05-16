@@ -37,21 +37,20 @@ namespace DotNetCoreAngularApp
             //because this clas has 3 different responsabilities
 
             //In MemoryDataBase
-            //services.AddDbContext<WeatherDbContext>(options => options.UseInMemoryDatabase("name"));
+            services.AddDbContext<WeatherDbContext>(options => options.UseInMemoryDatabase("name"));
 
-            services.AddDbContext<ForeCastContext>(options => options.UseSqlServer(connectionString));
+            //TODO: I have no longer an Azure DB
+            //services.AddDbContext<ForeCastContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ForeCastContext>();
-            services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>();
+
+            //TODO: Identiy ISSUE!
+            //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ForeCastContext>();
+            //services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>();
+            //services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>().AddDefaultTokenProviders();
 
             //I don't want to have roles for the moment.
             //services.AddIdentity<ForeCastUser, IdentityRole>().AddEntityFrameworkStores<ForeCastContext>();
             //services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>().AddEntityFrameworkStores<ForeCastContext>();
-
-
-            services.AddDefaultIdentity<ForeCastUser>().AddEntityFrameworkStores<ForeCastContext>().
-            AddDefaultTokenProviders();
-
 
             services.Configure<IdentityOptions>(options =>
             {
