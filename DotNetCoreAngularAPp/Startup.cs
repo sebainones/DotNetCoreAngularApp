@@ -96,12 +96,13 @@ namespace DotNetCoreAngularApp
 
             services.Configure<MyConfiguration>(Configuration.GetSection("MyConfig"));
 
+            //TODO: Solve HTTPS ISSUE!
             services.AddAntiforgery(
                 options =>
                 {
                     options.Cookie.Name = "_af";
                     options.Cookie.HttpOnly = true;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                     options.HeaderName = "X-XSRF-TOKEN";
                 }
             );
