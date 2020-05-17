@@ -31,6 +31,8 @@ namespace DotNetCoreAngularApp
 
 
             CreateWebHostBuilder(args)
+            //TODO: If i Uncomment this, then the Angular Client does not launch automatically and it NO longer works!!!
+            //Need to sort this out!!!
             //.UseKestrel(
             //    options =>
             //    {
