@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 //export -Now visible outside this file
 export class AppComponent {
-  title = 'ClientApp Sebas';
+  title = 'ClientApp Sebastian Inones';
   foreCast: Observable<WeatherForeCast>;
   myCurrentForecast: WeatherForeCast;
 
@@ -25,8 +25,8 @@ export class AppComponent {
 
   GetWeather() {
 
-    this.title = "Weather";
-    //console.log("Clima");
+    this.title = "Clima button has been pressed!";
+    console.log("Clima");
     //let currentDate = " hoy";
 
     //let weatherDeHoy = "Weather de " + currentDate;
@@ -42,7 +42,7 @@ export class AppComponent {
       this.title = this.foreCast[1].summary;
       this.myCurrentForecast = this.foreCast[1];
       console.log(this.myCurrentForecast);
-            
+
     },
       error => {
         console.log("error ocurred");

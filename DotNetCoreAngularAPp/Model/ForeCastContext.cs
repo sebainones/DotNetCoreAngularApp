@@ -5,6 +5,9 @@ using System;
 
 namespace DotNetCoreAngularApp.Model
 {
+    /// <summary>
+    /// This is a real DB entity!
+    /// </summary>
     public class ForeCastContext : DbContext
     {
         private string connectionString;
@@ -21,7 +24,6 @@ namespace DotNetCoreAngularApp.Model
         //https://github.com/aspnet/Identity/issues/1802
         public DbSet<IdentityUserClaim<string>> IdentityUserClaim { get; set; }
 
-
         //D.I
         public IConfiguration Configuration { get; }
 
@@ -32,7 +34,7 @@ namespace DotNetCoreAngularApp.Model
 
             dbPassword = Configuration.GetValue<string>("dbPwd");
 
-            connectionString = $"Server=tcp:sebasserver.database.windows.net,1433;Initial Catalog=SebaDataBase;Persist Security Info=False;User ID=sebainones;Password={dbPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";            
+            connectionString = $"Server=tcp:sebasserver.database.windows.net,1433;Initial Catalog=SebaDataBase;Persist Security Info=False;User ID=sebainones;Password={dbPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

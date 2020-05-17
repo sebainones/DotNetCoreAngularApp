@@ -10,22 +10,15 @@ namespace DotNetCoreAngularApp.Controllers
     [Route("/api/SampleData")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        private static string[] Summaries = { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
 
-        private static string[] Cities = new[]
-       {
-            "Madrid", "Barcelona", "Mendoza", "Nyon", "Torino"
-        };        
+        private static string[] Cities = new[] { "Madrid", "Barcelona", "Mendoza", "Nyon", "Torino" };
 
         [HttpGet("")]
         public IActionResult Get()
         {
             try
             {
-
                 return Ok(WeatherForecasts());
             }
             catch (Exception ex)
@@ -49,7 +42,5 @@ namespace DotNetCoreAngularApp.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             });
         }
-
-
     }
 }

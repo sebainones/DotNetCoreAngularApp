@@ -11,15 +11,14 @@ using Microsoft.Extensions.Logging;
 
 namespace DotNetCoreAngularApp.Pages
 {
-    [Authorize]
-
-    // [AllowAnonymous]
+    //[Authorize]
+    [AllowAnonymous]
     public class ForecastModel : PageModel
     {
         private readonly ILogger<ForecastModel> log;
 
-        //private readonly WeatherDbContext weatherDbContext;
-        private readonly ForeCastContext weatherDbContext;
+        private readonly WeatherDbContext weatherDbContext;
+        //private readonly ForeCastContext weatherDbContext;  //Real DB!
 
         private static bool isContextInitialized = false;
 
@@ -30,8 +29,8 @@ namespace DotNetCoreAngularApp.Pages
         [TempData]
         public string Message { get; set; }
 
-        //public ForecastModel(WeatherDbContext dbContext, ILogger<ForecastModel> log)
-        public ForecastModel(ForeCastContext dbContext, ILogger<ForecastModel> log)
+        public ForecastModel(WeatherDbContext dbContext, ILogger<ForecastModel> log)
+        //public ForecastModel(ForeCastContext dbContext, ILogger<ForecastModel> log)
         {
             this.weatherDbContext = dbContext;
             this.log = log;
@@ -45,22 +44,22 @@ namespace DotNetCoreAngularApp.Pages
             isContextInitialized = true;
 
             //In memory
-            //this.weatherDbContext.Weathers.Add(new WeatherForecast() { Name = "Alicante", Summary = "Soleado", TemperatureC = 31 });
-            //this.weatherDbContext.Weathers.Add(new WeatherForecast() { Name = "Zaragoza", Summary = "Nublado", TemperatureC = 25 });
-            //this.weatherDbContext.SaveChangesAsync();
+            this.weatherDbContext.Weathers.Add(new WeatherForecast() { Name = "Alicante", Summary = "Soleado", TemperatureC = 31 });
+            this.weatherDbContext.Weathers.Add(new WeatherForecast() { Name = "Zaragoza", Summary = "Nublado", TemperatureC = 25 });
+            this.weatherDbContext.SaveChangesAsync();
         }
 
 
         public async Task OnGetAsync()
         {
             //NO Tracking is good for readonly purposes
-            //Forecasts = await weatherDbContext.Weathers.AsNoTracking().ToListAsync();
+            Forecasts = await weatherDbContext.Weathers.AsNoTracking().ToListAsync();
             try
             {
                 //Real DB
-                await this.weatherDbContext.WeatherForecast.Select(w => w).LoadAsync();
+                await this.weatherDbContext.Weathers.Select(w => w).LoadAsync();
                 //TODO: Find out how to work with LocalView
-                Forecasts = this.weatherDbContext.WeatherForecast.Local.ToList();
+                Forecasts = this.weatherDbContext.Weathers.Local.ToList();
 
             }
             catch (Exception ex)
@@ -73,10 +72,10 @@ namespace DotNetCoreAngularApp.Pages
         //https://www.mikesdotnetting.com/Article/308/razor-pages-understanding-handler-methods
         public async Task<IActionResult> OnPostDeleteAsync(string name)
         {
-            var currentForecast = await weatherDbContext.WeatherForecast.FindAsync(name);            
+            var currentForecast = await weatherDbContext.Weathers.FindAsync(name);
             if (currentForecast != null)
             {
-                weatherDbContext.WeatherForecast.Remove(currentForecast);
+                weatherDbContext.Weathers.Remove(currentForecast);
 
                 await this.weatherDbContext.SaveChangesAsync();
                 //TODO: figure out this!
