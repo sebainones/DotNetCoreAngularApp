@@ -1,3 +1,4 @@
+![.NET Core & Angular 6](https://github.com/sebainones/DotNetCoreAngularApp/workflows/.NET%20Core%20&%20Angular%206/badge.svg)
 
 # Introduction
 
